@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project>
+	<!-- Reference the output of the task project, using properties that expand
+       to match the real output. -->
+	<!-- Using `TaskHostFactory` ensures that the task assembly will not be locked
+       at the end of the build. If it's omitted, that can cause build failures
+       in subsequent builds because the task assembly can't be written by the
+       next build. -->
+	<UsingTask TaskName="PackModTask"
+			   AssemblyFile="$(MSBuildThisFileDirectory)bin\$(Configuration)\$(TargetFramework)\Basy.BuildTasks.dll"
+			   TaskFactory="TaskHostFactory" />
+
+	<UsingTask TaskName="CleanModTask"
+			   AssemblyFile="$(MSBuildThisFileDirectory)bin\$(Configuration)\$(TargetFramework)\Basy.BuildTasks.dll"
+			   TaskFactory="TaskHostFactory" />
+
+	<ItemGroup>
+		<!-- Add a ProjectReference to ensure that the task gets built before it
+         needs to be called. -->
+		<ProjectReference Include="..\Basy.BuildTasks\Basy.BuildTasks.csproj"
+						  ReferenceOutputAssembly="false" />
+	</ItemGroup>
+
+	<Target Name="PackModTaskTarget" DependsOnTargets="Build" AfterTargets="Build">
+		<PackModTask OutputPath="$(OutputPath)" ModName="$(AssemblyName)" />
+	</Target>
+
+	<Target Name="CleanModTaskTarget" AfterTargets="Clean">
+		<CleanModTask OutputPath="$(OutputPath)" />
+	</Target>
+
+	<!--<Target Name="ClearReferenceCopyLocalPaths" AfterTargets="ResolveAssemblyReferences">
+		<ItemGroup>
+			<ReferenceCopyLocalPaths Remove="@(ReferenceCopyLocalPaths)" />
+		</ItemGroup>
+	</Target>-->
+
+</Project>

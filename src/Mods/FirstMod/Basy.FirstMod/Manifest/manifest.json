@@ -1,0 +1,9 @@
+{
+  "name": "BasyFirstMod",
+  "version_number": "1.0.2",
+  "website_url": "https://github.com/thunderstore-io",
+  "description": "This is basyras first mod",
+  "dependencies": [
+    "BepInEx-BepInExPack-5.4.2100"
+  ]
+}

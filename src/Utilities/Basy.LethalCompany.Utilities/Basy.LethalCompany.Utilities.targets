@@ -1,0 +1,17 @@
+<Project>
+	<Import Project="..\Basy.BuildTasks\Basy.BuildTasks.targets" />
+	
+	<!--<ItemGroup>
+		<NetcodePatch Include="$(TargetPath)" />
+	</ItemGroup>-->
+
+	<ItemGroup>
+		<PackageReference Include="Evaisa.NetcodePatcher.MSBuild" Version="3.3.4">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+	</ItemGroup>
+	
+	<!--<Sdk Name="Evaisa.NetcodePatcher.MSBuild" Version="3.3.4" />-->
+
+</Project>
