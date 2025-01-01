@@ -11,7 +11,6 @@ using Unity.Netcode;
 using System.Collections;
 using UnityEngine.Windows;
 using UnityEngine.Networking;
-using BasyFirstMod.Services.Pranking.Pranks.Sounds;
 using GameNetcodeStuff;
 using BasyFirstMod.Services.Logging;
 using BasyFirstMod.Helpers;
@@ -57,9 +56,7 @@ namespace BasyFirstMod.Services.Pranking
         {
             BasyLogger.Instance.LogInfo($"{nameof(RecievePrankClientRpc)} Start");
             BasyLogger.Instance.LogInfo($"{nameof(RecievePrankClientRpc)} local player. executing prank.");
-            HUDManager.Instance.DisplayTip("Header", "body");
             PrankClient.Instance.RecievePrank(prankId);
-
             BasyLogger.Instance.LogInfo($"{nameof(RecievePrankClientRpc)} End");
         }
     }

@@ -20,10 +20,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-
-	</ItemGroup>
-
-	<ItemGroup>
 	  <ProjectReference Include="..\..\..\Utilities\Basy.LethalCompany.Utilities\Basy.LethalCompany.Utilities.csproj" />
 	</ItemGroup>
 

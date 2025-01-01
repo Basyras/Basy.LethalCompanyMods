@@ -8,12 +8,14 @@ namespace Basy.BuildMod
     {
         public static async Task Main(string[] args)
         {
+            var modName = "Basy.FirstMod";
             var modSourceDir = @"C:\Users\Honza\source\repos\BasyFirstModSolution\src\Mods\FirstMod\Basy.FirstMod";
             var modBinDir = modSourceDir + @"\bin\Debug\netstandard2.1";
             var modPublishDir = modBinDir + @"\publish";
             var lethalDir = @"C:\Program Files (x86)\Steam\steamapps\common\Lethal Company";
             var lethalManagerDir = lethalDir + @"\Lethal Company_Data\Managed";
             var modPatchedDir = modBinDir + "/pathed";
+            var modResources = modPublishDir + "/Resources";
             var testDir = @"C:\Program Files (x86)\Steam\steamapps\common\Lethal Company\BepInEx\plugins\BasyFirstMod";
             //var steamArgs = "--doorstop-enable true --doorstop-target \"C:\\Users\\Honza\\AppData\\Roaming\\r2modmanPlus-local\\LethalCompany\\profiles\\BasyFistMod\\BepInEx\\core\\BepInEx.Preloader.dll\"";
             //var steamExePath = "C:\\Program Files (x86)\\Steam\\Steam.exe";
@@ -25,11 +27,14 @@ namespace Basy.BuildMod
 
             CommandInvoker.Invoke($"dotnet publish {modSourceDir}");
             CommandInvoker.Invoke($"netcode-patch \"{modPublishDir}\" \"{lethalManagerDir}\" --log-level Verbose --output \"{modPatchedDir}\"", 5000);
-            ThunderStore.Pack("Basy.FirstMod", modBinDir, modPublishDir, modPatchedDir);
+            CopyDirectory(new(modResources), new(modPatchedDir + "\\Resources"));
+            ThunderStore.Pack(modName, modBinDir, modPublishDir, modPatchedDir);
+
+            Directory.Delete(testDir, true);
             CopyDirectory(new(modPatchedDir), new(testDir));
             var startProcess = Process.Start($"{lethalDir}\\Lethal Company.exe");
             await Task.Delay(2000);
-            var startProcess2 = Process.Start($"{lethalDir}\\Lethal Company.exe");
+            //var startProcess2 = Process.Start($"{lethalDir}\\Lethal Company.exe");
         }
 
         private static void CopyDirectory(DirectoryInfo sourceDir, DirectoryInfo targetDir)

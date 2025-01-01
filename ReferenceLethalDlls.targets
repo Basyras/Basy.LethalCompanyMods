@@ -11,6 +11,9 @@
 		</Reference>
 		<Reference Include="$(LethalCompanyDir)Lethal Company_Data/Managed/Assembly*.dll">
 			<Private>false</Private>
+		</Reference>		
+		<Reference Include="$(LethalCompanyDir)Lethal Company_Data/Managed/Newtonsoft*.dll">
+			<Private>false</Private>
 		</Reference>
 	</ItemGroup>
 </Project>

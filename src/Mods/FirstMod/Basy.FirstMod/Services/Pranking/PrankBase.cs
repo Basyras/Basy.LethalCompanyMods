@@ -12,25 +12,14 @@ namespace BasyFirstMod.Services.Pranking
     {
         protected PlayerControllerB Player { get; private set; }
 
-        public void Awake(PlayerControllerB player)
+        public void Initialize(PlayerControllerB player)
         {
             Player = player;
         }
 
-        public virtual void End()
+        public virtual Task ExecuteAsync()
         {
-            BasyLogger.Instance.LogInfo($"{this.GetType().Name} End");
-
-        }
-
-        public virtual void Start()
-        {
-            BasyLogger.Instance.LogInfo($"{this.GetType().Name} Start");
-        }
-
-        public virtual void Update()
-        {
-
+            return Task.CompletedTask;
         }
     }
 }

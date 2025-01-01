@@ -1,5 +1,5 @@
-﻿using BasyFirstMod.Services.Logging;
-using BasyFirstMod.Services.Pranking.Pranks.Sounds;
+﻿using BasyFirstMod.Helpers;
+using BasyFirstMod.Services.Logging;
 using GameNetcodeStuff;
 using System;
 using System.Collections.Generic;
@@ -31,21 +31,23 @@ namespace BasyFirstMod.Services.Pranking
             var localPlayer = StartOfRound.Instance.localPlayerController;
             var networker = PrankNetworker.Instance.GetComponent<PrankNetworker>();
 
-            if (networker.IsHost || networker.IsServer)
-            {
-                networker.RecievePrankClientRpc(prankId);
-            }
-            else
-            {
-                networker.RequestPrankServerRpc(playerId, prankId);
-            }
+            //if (networker.IsHost || networker.IsServer)
+            //{
+            //    networker.RecievePrankClientRpc(prankId);
+            //}
+            //else
+            //{
+            //    networker.RequestPrankServerRpc(playerId, prankId);
+            //}
 
+            networker.RequestPrankServerRpc(playerId, prankId);
             BasyLogger.Instance.LogInfo("PrankClient RequestPrank End");
         }
 
         public void RecievePrank(string prankId)
         {
             Type prankType = null;
+
             if (prankId is null)
             {
                 prankType = prankTypes[new Random().Next(0, prankTypes.Length - 1)];
@@ -56,7 +58,23 @@ namespace BasyFirstMod.Services.Pranking
             }
 
             var prankInstance = (IPrank)Activator.CreateInstance(prankType);
-            prankInstance.Start();
+            prankInstance.Initialize(PlayerHelper.GetLocalPlayer());
+            BasyLogger.Instance.LogInfo($"{nameof(PrankClient)} Executing '{prankType.Name}' prank");
+            ExecutePrank(prankInstance);
+
+            static async void ExecutePrank(IPrank prank)
+            {
+                try
+                {
+                    await prank.ExecuteAsync();
+                }
+                catch (Exception ex)
+                {
+                    BasyLogger.Instance.LogError($"Prank '{prank.GetType().Name}' failed.\n{ex.Message}\n\n{ex.StackTrace}");
+                }
+            }
         }
+
+
     }
 }

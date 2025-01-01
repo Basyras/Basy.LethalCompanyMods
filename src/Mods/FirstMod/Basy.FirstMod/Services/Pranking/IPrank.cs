@@ -9,9 +9,7 @@ namespace BasyFirstMod.Services.Pranking
 {
     public interface IPrank
     {
-        void Awake(PlayerControllerB player);
-        void Start();
-        void Update();
-        void End();
+        void Initialize(PlayerControllerB player);
+        Task ExecuteAsync();
     }
 }
