@@ -19,7 +19,7 @@ namespace BasyFirstMod.Services.Pranking.Hooks
     {
         [HarmonyPatch(typeof(RoundManager), "Update")]
         [HarmonyPostfix]
-        public static void UpdatePatch()
+        public static void UpdatePatch(RoundManager __instance)
         {
             var pPressed = UnityInput.Current.GetKey(KeyCode.P);
             if (pPressed is false)
@@ -27,9 +27,7 @@ namespace BasyFirstMod.Services.Pranking.Hooks
                 return;
             }
 
-            var prankId = GetPressedPrank();
-
-            if (prankId is null)
+            if (GetPressedPrank(out var prankId) is false)
             {
                 return;
             }
@@ -42,54 +40,36 @@ namespace BasyFirstMod.Services.Pranking.Hooks
             PrankClient.Instance.RequestPrank(-1, prankId);
         }
 
-        //private static int GetPressedNumber()
-        //{
-        //    if (UnityInput.Current.GetKeyDown(KeyCode.Keypad0))
-        //    {
-        //        return 0;
-        //    }
-
-        //    if (UnityInput.Current.GetKeyDown(KeyCode.Keypad1))
-        //    {
-        //        return 1;
-        //    }
-
-        //    if (UnityInput.Current.GetKeyDown(KeyCode.Keypad2))
-        //    {
-        //        return 2;
-        //    }
-
-        //    if (UnityInput.Current.GetKeyDown(KeyCode.Keypad3))
-        //    {
-        //        return 3;
-        //    }
-
-        //    return -1;
-        //}
-
-        private static string GetPressedPrank()
+        private static bool GetPressedPrank(out string prankId)
         {
+
+            prankId = null;
             if (UnityInput.Current.GetKeyDown(KeyCode.Keypad0))
             {
-                return nameof(ScarySoundPrank);
+                return true;
             }
 
             if (UnityInput.Current.GetKeyDown(KeyCode.Keypad1))
             {
-                return nameof(CameraShakePrank);
+                prankId = nameof(ScarySoundPrank);
             }
 
             if (UnityInput.Current.GetKeyDown(KeyCode.Keypad2))
             {
-                return nameof(ScarySoundPrank);
+                prankId = nameof(CameraShakePrank);
             }
 
             if (UnityInput.Current.GetKeyDown(KeyCode.Keypad3))
             {
-                return nameof(ScarySoundPrank);
+                prankId = nameof(CameraLockPrank);
             }
 
-            return null;
+            if (UnityInput.Current.GetKeyDown(KeyCode.Keypad4))
+            {
+                prankId = nameof(ScarySoundPrank);
+            }
+
+            return prankId != null;
         }
     }
 }

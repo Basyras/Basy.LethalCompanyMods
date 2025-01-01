@@ -20,8 +20,10 @@ namespace BasyFirstMod.Services.Pranking
 {
     public class PrankNetworker : NetworkBehaviour
     {
+        public static PrankNetworker Instance { get; private set; }
         private void Awake()
         {
+            Instance = this;
             BasyLogger.Instance.LogInfo($"{nameof(PrankNetworker)} Awake called");
         }
 
@@ -37,65 +39,25 @@ namespace BasyFirstMod.Services.Pranking
         }
 
         [ServerRpc(RequireOwnership = false)]
-        public void RequestPrankServerRpc(int playerId, string prankId, ServerRpcParams serverRpcParams = default)
+        public void RequestPrankServerRpc(int playerId, string prankId/*, ServerRpcParams serverRpcParams = default*/)
         {
             BasyLogger.Instance.LogInfo($"{nameof(RequestPrankServerRpc)} Start");
             BasyLogger.Instance.LogInfo($"{nameof(RequestPrankServerRpc)} IsSpawned: {IsSpawned}");
             BasyLogger.Instance.LogInfo($"{nameof(RequestPrankServerRpc)} IsServer: {IsServer}");
             BasyLogger.Instance.LogInfo($"{nameof(RequestPrankServerRpc)} IsHost: {IsHost}");
+            var networker = PrankNetworker.Instance.GetComponent<PrankNetworker>();
 
-            if (IsServer is false)
-            {
-                BasyLogger.Instance.LogInfo($"{nameof(RequestPrankServerRpc)} Returns early, not server");
-                return;
-            }
-
-            PlayerControllerB[] playersToPrank;
-
-            if (playerId is -1)
-            {
-                playersToPrank = StartOfRound.Instance.allPlayerScripts.ToArray();
-            }
-            else
-            {
-                playersToPrank = new PlayerControllerB[] { StartOfRound.Instance.allPlayerScripts[playerId] };
-            }
-
-            ClientRpcParams clientRpcParams = new ClientRpcParams
-            {
-                Send = new ClientRpcSendParams
-                {
-                    TargetClientIds = NetworkManager.ConnectedClientsIds
-                }
-            };
-            //foreach (PlayerControllerB playerToPrank in playersToPrank)
-            //{
-            //    var networker = playerToPrank.gameObject.GetComponent<PrankNetworker>();
-            //    networker.RecievePrankClientRpc(prankId, clientRpcParams);
-            //}
-
-            var networker = PrankNetworkObject.Instance.GetComponent<PrankNetworker>();
-            networker.RecievePrankClientRpc(prankId, clientRpcParams);
+            networker.RecievePrankClientRpc(prankId);
 
             BasyLogger.Instance.LogInfo($"{nameof(RequestPrankServerRpc)} End");
         }
 
         [ClientRpc]
-        public void RecievePrankClientRpc(string prankId, ClientRpcParams clientRpcParams)
+        public void RecievePrankClientRpc(string prankId/*, ClientRpcParams clientRpcParams = default*/)
         {
             BasyLogger.Instance.LogInfo($"{nameof(RecievePrankClientRpc)} Start");
-            var localPlayer = PlayerHelper.GetLocalPlayer();
-            var isLocaLPlayer = localPlayer.gameObject == this.gameObject;
-            //BasyLogger.Instance.LogInfo($"{nameof(RecievePrankClientRpc)} isLocaLPlayer: {isLocaLPlayer}");
-            if (isLocaLPlayer is false)
-            {
-                BasyLogger.Instance.LogInfo($"{nameof(RecievePrankClientRpc)} Not local player. returning");
-                return;
-            }
-
-            //BasyLogger.Instance.LogInfo($"{nameof(RecievePrankClientRpc)} PlayerId '{localPlayer.playerClientId}' is local.");
             BasyLogger.Instance.LogInfo($"{nameof(RecievePrankClientRpc)} local player. executing prank.");
-
+            HUDManager.Instance.DisplayTip("Header", "body");
             PrankClient.Instance.RecievePrank(prankId);
 
             BasyLogger.Instance.LogInfo($"{nameof(RecievePrankClientRpc)} End");

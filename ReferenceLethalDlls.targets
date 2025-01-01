@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<Project>
+	<PropertyGroup>
+		<LethalCompanyDir>C:/Program Files (x86)/Steam/steamapps/common/Lethal Company/</LethalCompanyDir>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<Reference Include="$(LethalCompanyDir)Lethal Company_Data/Managed/Unity*.dll">
+			<Private>false</Private>
+		</Reference>
+		<Reference Include="$(LethalCompanyDir)Lethal Company_Data/Managed/Assembly*.dll">
+			<Private>false</Private>
+		</Reference>
+	</ItemGroup>
+</Project>

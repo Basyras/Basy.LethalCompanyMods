@@ -6,6 +6,7 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{795AD1DA-68E9-4E08-88B3-3576379AB095}"
 	ProjectSection(SolutionItems) = preProject
 		nuget.config = nuget.config
+		ReferenceLethalDlls.targets = ReferenceLethalDlls.targets
 		TODO.md = TODO.md
 	EndProjectSection
 EndProject
@@ -23,7 +24,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "FirstMod", "FirstMod", "{82
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Basy.FirstMod", "src\Mods\FirstMod\Basy.FirstMod\Basy.FirstMod.csproj", "{867E47E4-570F-443E-ACE1-3AE15C3555B9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Basy.FirstMod.Debug", "src\Mods\FirstMod\Basy.FirstMod.Debug\Basy.FirstMod.Debug.csproj", "{A3EC5A2C-8543-4E8A-B7B6-91ABBE9304C9}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "build", "build", "{8F9AFDCA-988E-4C85-B053-1FADE30B3C16}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Basy.BuildMod", "Basy.BuildMod\Basy.BuildMod.csproj", "{31ECFA6A-1CB1-46C8-B2E8-8678E8797A1F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -43,10 +46,10 @@ Global
 		{867E47E4-570F-443E-ACE1-3AE15C3555B9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{867E47E4-570F-443E-ACE1-3AE15C3555B9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{867E47E4-570F-443E-ACE1-3AE15C3555B9}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A3EC5A2C-8543-4E8A-B7B6-91ABBE9304C9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A3EC5A2C-8543-4E8A-B7B6-91ABBE9304C9}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A3EC5A2C-8543-4E8A-B7B6-91ABBE9304C9}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A3EC5A2C-8543-4E8A-B7B6-91ABBE9304C9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{31ECFA6A-1CB1-46C8-B2E8-8678E8797A1F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{31ECFA6A-1CB1-46C8-B2E8-8678E8797A1F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{31ECFA6A-1CB1-46C8-B2E8-8678E8797A1F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{31ECFA6A-1CB1-46C8-B2E8-8678E8797A1F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -58,6 +61,6 @@ Global
 		{6FA59795-4148-46AF-89C7-BFBF8B82E6B6} = {AFC68E5D-ADA1-402C-A5B4-CDA550B4E738}
 		{82A9245D-6047-4474-8491-06F6D8B252C2} = {6FA59795-4148-46AF-89C7-BFBF8B82E6B6}
 		{867E47E4-570F-443E-ACE1-3AE15C3555B9} = {82A9245D-6047-4474-8491-06F6D8B252C2}
-		{A3EC5A2C-8543-4E8A-B7B6-91ABBE9304C9} = {82A9245D-6047-4474-8491-06F6D8B252C2}
+		{31ECFA6A-1CB1-46C8-B2E8-8678E8797A1F} = {8F9AFDCA-988E-4C85-B053-1FADE30B3C16}
 	EndGlobalSection
 EndGlobal

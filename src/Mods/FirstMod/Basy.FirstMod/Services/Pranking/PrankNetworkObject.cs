@@ -12,20 +12,8 @@ namespace BasyFirstMod.Services.Pranking
     {
         static PrankNetworkObject()
         {
-            //var fakePrefab = new GameObject("PrankNetworkerPrefab",
-            //    new Type[]
-            //    {
-            //        typeof(PrankNetworker),
-            //        typeof(NetworkObject),
-            //    });
-
-            //fakePrefab.SetActive(true);
-            //fakePrefab.isStatic = true;
-            //Prefab = fakePrefab;
         }
 
         public static GameObject Prefab;
-
-        public static GameObject Instance;
     }
 }

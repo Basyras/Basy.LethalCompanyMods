@@ -30,24 +30,9 @@ namespace BasyFirstMod
         public void Awake()
         {
             BasyLogger.Instance.LogInfo($"{ModGuid}({ModVersion}) {nameof(Awake)} Start");
-            //var bundlePath = Path.Combine(Directory.GetParent(Assembly.GetExecutingAssembly().Location).FullName, "Resources\\basyfirstmodbundle");
-            //AssetBundle bundle = AssetBundle.LoadFromFile(bundlePath);
-            //PrankNetworkObject.Prefab = bundle.LoadAsset<GameObject>("GamblingMachine");
-
-            var prefab = NetworkPrefabHelper.CreateNetworkPrefab("FirstModNetworkPrefab");
-
-            try
-            {
-                if (PrankNetworkObject.Instance is null)
-                {
-                    PrankNetworkObject.Instance = UnityEngine.Object.Instantiate(PrankNetworkObject.Prefab);
-                    PrankNetworkObject.Instance.AddComponent<PrankNetworker>();
-                }
-            }
-            catch (Exception e)
-            {
-                BasyLogger.Instance.LogError($"{e.Message} \n{e.StackTrace}");
-            }
+            NetCodePatchHelper.Patch<BasyFirstModPlugin>();
+            PrankNetworkObject.Prefab = NetworkPrefabHelper.CreateNetworkPrefab("FirstModNetworkPrefab");
+            PrankNetworkObject.Prefab.AddComponent<PrankNetworker>();
 
             foreach (var localTypes in Assembly.GetExecutingAssembly().GetTypes())
             {
