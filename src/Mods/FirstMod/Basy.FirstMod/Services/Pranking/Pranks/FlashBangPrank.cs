@@ -18,7 +18,7 @@ namespace Basy.FirstMod.Services.Pranking.Pranks
             var time = 1f;
 
             var tt = new StunGrenadeItem().explodeSFX;
-            await SoundHelper.PlaySoundAsync(tt);
+            SoundHelper.PlayAtPlayerLocally(tt);
             await Task.Delay(500);
             HUDManager.Instance.flashFilter = time;
             SoundManager.Instance.earsRingingTimer = time;

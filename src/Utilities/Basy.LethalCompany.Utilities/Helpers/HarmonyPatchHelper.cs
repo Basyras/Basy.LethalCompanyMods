@@ -22,13 +22,8 @@ namespace Basy.LethalCompany.Utilities
         public static void Patch(Assembly assembly, string modGuid)
         {
             Harmony harmony = new Harmony(modGuid);
-            //harmony.PatchAll(assembly);
             foreach (var type in assembly.GetTypes())
             {
-                //if (localTypes.Name.EndsWith("Patch") || localTypes.Name.EndsWith("Hook"))
-                //{
-                //    harmony.PatchAll(localTypes);
-                //}
                 harmony.PatchAll(type);
             }
         }

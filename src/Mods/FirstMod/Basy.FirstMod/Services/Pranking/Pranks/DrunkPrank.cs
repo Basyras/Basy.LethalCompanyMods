@@ -11,7 +11,7 @@ using UnityEngine;
 
 namespace Basy.FirstMod.Services.Pranking.Pranks
 {
-    public class CameraDrunkPrank : PrankBase
+    public class DrunkPrank : PrankBase
     {
         public override async Task ExecuteAsync()
         {
@@ -21,14 +21,17 @@ namespace Basy.FirstMod.Services.Pranking.Pranks
         private IEnumerator Play()
         {
             var camera = Player.gameplayCamera;
-            var original = camera.projectionMatrix;
+            var originalProjection = camera.projectionMatrix;
+            var originalTransform = camera.transform;
 
             for (int i = 0; i < 1000; i++)
             {
+                var increment = Mathf.Sin(Time.time);
+                Player.transform.Rotate(0, increment, 0, Space.Self);
                 camera.projectionMatrix = FishEyeMatrix(camera);
                 yield return null;
             }
-            camera.projectionMatrix = original;
+            camera.projectionMatrix = originalProjection;
 
         }
 
@@ -45,7 +48,7 @@ namespace Basy.FirstMod.Services.Pranking.Pranks
             float near = camera.nearClipPlane;
             float far = camera.farClipPlane;
 
-            float multiplier = Mathf.Abs(Mathf.Sin(Time.time * 1.2F));
+            float multiplier = Mathf.Abs(Mathf.Sin(Time.time * 1.2F) / 2);
             float left = -0.2F * multiplier;
             float right = 0.2F * multiplier;
             float top = 0.2F * multiplier;

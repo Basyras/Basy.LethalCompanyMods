@@ -11,5 +11,4 @@
 		<PackageReference Include="Evaisa.NetcodePatcher" Version="3.3.4" />
 	</ItemGroup>
 
-
 </Project>

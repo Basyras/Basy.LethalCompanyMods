@@ -33,7 +33,7 @@ namespace Basy.BuildMod
             Directory.Delete(testDir, true);
             CopyDirectory(new(modPatchedDir), new(testDir));
             var startProcess = Process.Start($"{lethalDir}\\Lethal Company.exe");
-            await Task.Delay(2000);
+            //await Task.Delay(2000);
             //var startProcess2 = Process.Start($"{lethalDir}\\Lethal Company.exe");
         }
 

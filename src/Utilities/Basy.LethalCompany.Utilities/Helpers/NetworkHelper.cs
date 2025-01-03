@@ -11,7 +11,8 @@ namespace Basy.LethalCompany.Utilities
         public static void RegisterNetworker<TNetworkBehaviour>()
             where TNetworkBehaviour : NetworkBehaviour
         {
-            var prefab = NetworkPrefabHelper.CreateNetworkPrefab("NetworkHelper_" + Guid.NewGuid().ToString());
+            var networkType = typeof(TNetworkBehaviour);
+            var prefab = NetworkPrefabHelper.CreateNetworkPrefab("NetworkHelper_" + networkType);
             prefab.AddComponent<TNetworkBehaviour>();
             On.OnGameStart += (s, a) =>
             {

@@ -13,7 +13,7 @@ using UnityEngine.Windows;
 using UnityEngine.Networking;
 using GameNetcodeStuff;
 using BasyFirstMod.Services.Logging;
-using BasyFirstMod.Helpers;
+using Basy.LethalCompany.Utilities;
 
 namespace BasyFirstMod.Services.Pranking
 {
@@ -38,7 +38,7 @@ namespace BasyFirstMod.Services.Pranking
         }
 
         [ServerRpc(RequireOwnership = false)]
-        public void RequestPrankServerRpc(int playerId, string prankId/*, ServerRpcParams serverRpcParams = default*/)
+        public void RequestPrankServerRpc(int playerId, string prankId)
         {
             BasyLogger.Instance.LogInfo($"{nameof(RequestPrankServerRpc)} Start");
             BasyLogger.Instance.LogInfo($"{nameof(RequestPrankServerRpc)} IsSpawned: {IsSpawned}");
@@ -46,17 +46,20 @@ namespace BasyFirstMod.Services.Pranking
             BasyLogger.Instance.LogInfo($"{nameof(RequestPrankServerRpc)} IsHost: {IsHost}");
             var networker = PrankNetworker.Instance.GetComponent<PrankNetworker>();
 
-            networker.RecievePrankClientRpc(prankId);
+            networker.RecievePrankClientRpc(playerId, prankId);
 
             BasyLogger.Instance.LogInfo($"{nameof(RequestPrankServerRpc)} End");
         }
 
         [ClientRpc]
-        public void RecievePrankClientRpc(string prankId/*, ClientRpcParams clientRpcParams = default*/)
+        public void RecievePrankClientRpc(int playerId, string prankId)
         {
             BasyLogger.Instance.LogInfo($"{nameof(RecievePrankClientRpc)} Start");
-            BasyLogger.Instance.LogInfo($"{nameof(RecievePrankClientRpc)} local player. executing prank.");
-            PrankClient.Instance.RecievePrank(prankId);
+            if (playerId == -1 || PlayerHelper.GetLocalPlayer().playerClientId == (ulong)playerId)
+            {
+                BasyLogger.Instance.LogInfo($"{PlayerHelper.GetLocalPlayer().playerClientId} targeted by prank");
+                PrankClient.Instance.RecievePrank(prankId);
+            }
             BasyLogger.Instance.LogInfo($"{nameof(RecievePrankClientRpc)} End");
         }
     }

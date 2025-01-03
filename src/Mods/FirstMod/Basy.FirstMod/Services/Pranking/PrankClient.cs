@@ -1,4 +1,4 @@
-﻿using BasyFirstMod.Helpers;
+﻿using Basy.LethalCompany.Utilities;
 using BasyFirstMod.Services.Logging;
 using GameNetcodeStuff;
 using System;

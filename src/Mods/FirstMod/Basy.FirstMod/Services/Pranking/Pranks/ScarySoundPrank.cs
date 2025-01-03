@@ -18,9 +18,9 @@ namespace Basy.FirstMod.Services.Pranking.Pranks
             var scaryAudioFolder = Path.Combine(Directory.GetParent(Assembly.GetExecutingAssembly().Location).FullName, $"Resources\\Audio\\Scary");
             var files = Directory.GetFiles(scaryAudioFolder);
             var path = files[new Random().Next(0, files.Length - 1)];
-            var audioClip = await SoundHelper.LoadAudioAsync(path);
+            var audioClip = await AssetsHelper.GetAudioFromFileAsync(path);
             BasyLogger.Instance.LogInfo("Trying to load: " + path);
-            await SoundHelper.PlaySoundAsync(audioClip);
+            SoundHelper.PlayAtPlayerLocally(audioClip);
         }
     }
 }

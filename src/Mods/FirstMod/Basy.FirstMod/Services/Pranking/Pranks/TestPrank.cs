@@ -11,15 +11,17 @@ using UnityEngine;
 
 namespace Basy.FirstMod.Services.Pranking.Pranks
 {
-    public class Prank1 : PrankBase
+    public class TestPrank : PrankBase
     {
         public override async Task ExecuteAsync()
         {
-            var time = 1f;
-            var tt = new StunGrenadeItem().explodeSFX;
-            await SoundHelper.PlaySoundAsync(tt);
-            HUDManager.Instance.flashFilter = time;
-            SoundManager.Instance.earsRingingTimer = time;
+            var audios = AssetsHelper.GetAssets<AudioClip>().OrderBy(x=>x.name);
+            foreach (var audio1 in audios)
+            {
+                LoggerHelper.LogInfo(audio1.name);
+            }
+            var audio = AssetsHelper.GetAsset<AudioClip>("ShakeSpraycan");
+            SoundHelper.PlayAtPlayerLocally(audio);
         }
     }
 }
