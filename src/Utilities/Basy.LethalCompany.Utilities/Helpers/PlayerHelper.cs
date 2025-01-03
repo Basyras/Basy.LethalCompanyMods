@@ -18,5 +18,15 @@ namespace Basy.LethalCompany.Utilities
         {
             return StartOfRound.Instance.localPlayerController.playerClientId;
         }
+
+        public static PlayerControllerB[] GetPlayers()
+        {
+            return StartOfRound.Instance.allPlayerScripts;
+        }
+
+        public static PlayerControllerB GetPlayer(int playerId)
+        {
+            return StartOfRound.Instance.allPlayerScripts[playerId];
+        }
     }
 }

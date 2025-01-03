@@ -11,17 +11,17 @@ namespace Basy.LethalCompany.Utilities
     {
         static HarmonyPatchHelper()
         {
-            Patch(typeof(HarmonyPatchHelper).Assembly, "HookPatchHelper");
+            Patch(typeof(HarmonyPatchHelper).Assembly);
         }
 
-        public static void Patch<TAssemblyMarker>(string modGuid)
+        public static void Patch<TAssemblyMarker>()
         {
-            Patch(typeof(TAssemblyMarker).Assembly, modGuid);
+            Patch(typeof(TAssemblyMarker).Assembly);
         }
 
-        public static void Patch(Assembly assembly, string modGuid)
+        public static void Patch(Assembly assembly)
         {
-            Harmony harmony = new Harmony(modGuid);
+            Harmony harmony = new Harmony(Guid.NewGuid().ToString());
             foreach (var type in assembly.GetTypes())
             {
                 harmony.PatchAll(type);

@@ -15,6 +15,8 @@ namespace Basy.FirstMod.Services.Pranking.Pranks
         public override async Task ExecuteAsync()
         {
             //TODO drop item in hand
+            //Player.DiscardHeldObject();
+            Player.DropAllHeldItems();
             Player.SpawnPlayerAnimation();
         }
     }

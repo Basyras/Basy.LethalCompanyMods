@@ -13,6 +13,7 @@ using UnityEngine.Windows;
 using UnityEngine.Networking;
 using GameNetcodeStuff;
 using Basy.LethalCompany.Utilities;
+using Newtonsoft.Json.Linq;
 
 namespace BasyFirstMod.Services.Pranking
 {
@@ -41,10 +42,21 @@ namespace BasyFirstMod.Services.Pranking
         {
             if (playerId == -1 || PlayerHelper.GetLocalPlayer().playerClientId == (ulong)playerId)
             {
-                LoggerHelper.LogInfo($"{PlayerHelper.GetLocalPlayer().playerClientId} targeted by audio");
                 var audio = AssetsHelper.GetAsset<AudioClip>(audioId);
                 SoundHelper.PlayAtPlayerLocally(audio);
             }
+        }
+
+        [ServerRpc(RequireOwnership = false)]
+        public void RequestGiveItemServerRpc(int playerId, int itemId)
+        {
+            LoggerHelper.LogError($"Giving item '{itemId}' to player '{playerId}'");
+
+            var networker = BasyUtiltsNetworker.Instance.GetComponent<BasyUtiltsNetworker>();
+            var player = PlayerHelper.GetPlayer(playerId);
+            GameObject newItem = UnityEngine.Object.Instantiate(StartOfRound.Instance.allItemsList.itemsList[itemId].spawnPrefab, player.transform.position, Quaternion.identity, StartOfRound.Instance.propsContainer);
+            newItem.GetComponent<GrabbableObject>().fallTime = 0f;
+            newItem.GetComponent<NetworkObject>().Spawn();
         }
     }
 }

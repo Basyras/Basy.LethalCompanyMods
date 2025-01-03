@@ -19,6 +19,7 @@ using Basy.LethalCompany.Utilities;
 using Basy.FirstMod.Services.Pranking.Pranks;
 using static UnityEngine.Rendering.VirtualTexturing.Debugging;
 using Basy.FirstMod.Services.Pranking;
+using Basy.LethalCompany.Utilities.Commands;
 
 namespace BasyFirstMod
 {
@@ -35,10 +36,9 @@ namespace BasyFirstMod
 
             BasyLethalUtils.Register();
             NetCodePatcherHelper.Patch<BasyFirstModPlugin>();
-            HarmonyPatchHelper.Patch<BasyFirstModPlugin>(ModGuid);
+            HarmonyPatchHelper.Patch<BasyFirstModPlugin>();
+            CommandsHelper.AddCommands<BasyFirstModPlugin>();
             NetworkHelper.RegisterNetworker<PrankNetworker>();
-
-            PrankHooks.Register();
 
             BasyLogger.Instance.LogInfo($"{ModGuid}({ModVersion}) {nameof(Awake)} End");
         }

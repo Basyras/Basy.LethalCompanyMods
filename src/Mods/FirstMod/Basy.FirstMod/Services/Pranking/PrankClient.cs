@@ -27,19 +27,7 @@ namespace BasyFirstMod.Services.Pranking
         public void RequestPrank(int playerId, string prankId)
         {
             BasyLogger.Instance.LogInfo("PrankClient RequestPrank Start");
-
-            var localPlayer = StartOfRound.Instance.localPlayerController;
             var networker = PrankNetworker.Instance.GetComponent<PrankNetworker>();
-
-            //if (networker.IsHost || networker.IsServer)
-            //{
-            //    networker.RecievePrankClientRpc(prankId);
-            //}
-            //else
-            //{
-            //    networker.RequestPrankServerRpc(playerId, prankId);
-            //}
-
             networker.RequestPrankServerRpc(playerId, prankId);
             BasyLogger.Instance.LogInfo("PrankClient RequestPrank End");
         }
@@ -54,7 +42,7 @@ namespace BasyFirstMod.Services.Pranking
             }
             else
             {
-                prankType = Assembly.GetExecutingAssembly().GetTypes().First(x => x.Name == prankId);
+                prankType = Assembly.GetExecutingAssembly().GetTypes().First(x => x.Name.ToLower() == prankId.ToLower());
             }
 
             var prankInstance = (IPrank)Activator.CreateInstance(prankType);
@@ -74,7 +62,5 @@ namespace BasyFirstMod.Services.Pranking
                 }
             }
         }
-
-
     }
 }
