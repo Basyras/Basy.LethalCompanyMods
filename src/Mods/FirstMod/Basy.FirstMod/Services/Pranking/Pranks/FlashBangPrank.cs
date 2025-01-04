@@ -1,4 +1,5 @@
 ﻿using Basy.LethalCompany.Utilities;
+using Basy.LethalCompany.Utilities.Helpers.Audios;
 using BasyFirstMod.Services.Pranking;
 using GameNetcodeStuff;
 using HarmonyLib;
@@ -16,10 +17,9 @@ namespace Basy.FirstMod.Services.Pranking.Pranks
         public override async Task ExecuteAsync()
         {
             var time = 1f;
-
-            var tt = new StunGrenadeItem().explodeSFX;
-            SoundHelper.PlayAtPlayerLocally(tt);
-            await Task.Delay(500);
+            var audio = BLUtils.Assets.GetAsset<AudioClip>("FlashbangExplode");
+            BLUtils.Audio.PlayAtPlayerLocallyAsync(PlayerId, audio);
+            await Task.Delay(150);
             HUDManager.Instance.flashFilter = time;
             SoundManager.Instance.earsRingingTimer = time;
         }

@@ -11,10 +11,12 @@ namespace BasyFirstMod.Services.Pranking
     public class PrankBase : IPrank
     {
         protected PlayerControllerB Player { get; private set; }
+        protected ulong PlayerId { get; private set; }
 
         public void Initialize(PlayerControllerB player)
         {
             Player = player;
+            PlayerId = player.playerClientId;
         }
 
         public virtual Task ExecuteAsync()

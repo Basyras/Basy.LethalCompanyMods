@@ -1,4 +1,5 @@
 ﻿using Basy.LethalCompany.Utilities;
+using Basy.LethalCompany.Utilities.Helpers.Audios;
 using BasyFirstMod.Services.Logging;
 using BasyFirstMod.Services.Pranking;
 using System;
@@ -8,6 +9,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using UnityEngine;
 
 namespace Basy.FirstMod.Services.Pranking.Pranks
 {
@@ -17,10 +19,19 @@ namespace Basy.FirstMod.Services.Pranking.Pranks
         {
             var scaryAudioFolder = Path.Combine(Directory.GetParent(Assembly.GetExecutingAssembly().Location).FullName, $"Resources\\Audio\\Scary");
             var files = Directory.GetFiles(scaryAudioFolder);
-            var path = files[new Random().Next(0, files.Length - 1)];
-            var audioClip = await AssetsHelper.GetAudioFromFileAsync(path);
-            BasyLogger.Instance.LogInfo("Trying to load: " + path);
-            SoundHelper.PlayAtPlayerLocally(audioClip);
+            var playCustomSound = new System.Random().Next(0, 2);
+            AudioClip audioClip;
+            if (playCustomSound == 0)
+            {
+                var path = files[new System.Random().Next(0, files.Length - 1)];
+                audioClip = await BLUtils.Assets.GetAudioFromFileAsync(path);
+            }
+            else
+            {
+                var audioClips = BLUtils.Assets.GetAssets<AudioClip>();
+                audioClip = audioClips[new System.Random().Next(audioClips.Length)];
+            }
+            await BLUtils.Audio.PlayAtPlayerLocallyAsync(PlayerId, audioClip);
         }
     }
 }

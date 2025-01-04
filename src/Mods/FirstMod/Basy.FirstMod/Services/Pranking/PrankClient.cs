@@ -1,4 +1,5 @@
 ﻿using Basy.LethalCompany.Utilities;
+using Basy.LethalCompany.Utilities.Helpers.Players;
 using BasyFirstMod.Services.Logging;
 using GameNetcodeStuff;
 using System;
@@ -24,7 +25,7 @@ namespace BasyFirstMod.Services.Pranking
                 .ToArray();
         }
 
-        public void RequestPrank(int playerId, string prankId)
+        public void RequestPrank(ulong playerId, string prankId)
         {
             BasyLogger.Instance.LogInfo("PrankClient RequestPrank Start");
             var networker = PrankNetworker.Instance.GetComponent<PrankNetworker>();
@@ -46,7 +47,7 @@ namespace BasyFirstMod.Services.Pranking
             }
 
             var prankInstance = (IPrank)Activator.CreateInstance(prankType);
-            prankInstance.Initialize(PlayerHelper.GetLocalPlayer());
+            prankInstance.Initialize(BLUtils.Players.GetLocalPlayer());
             BasyLogger.Instance.LogInfo($"{nameof(PrankClient)} Executing '{prankType.Name}' prank");
             ExecutePrank(prankInstance);
 

@@ -13,6 +13,7 @@ using UnityEngine.Windows;
 using UnityEngine.Networking;
 using GameNetcodeStuff;
 using BasyFirstMod.Services.Logging;
+using Basy.LethalCompany.Utilities.Helpers.Players;
 using Basy.LethalCompany.Utilities;
 
 namespace BasyFirstMod.Services.Pranking
@@ -38,26 +39,21 @@ namespace BasyFirstMod.Services.Pranking
         }
 
         [ServerRpc(RequireOwnership = false)]
-        public void RequestPrankServerRpc(int playerId, string prankId)
+        public void RequestPrankServerRpc(ulong playerId, string prankId)
         {
-            BasyLogger.Instance.LogInfo($"{nameof(RequestPrankServerRpc)} Start");
-            BasyLogger.Instance.LogInfo($"{nameof(RequestPrankServerRpc)} IsSpawned: {IsSpawned}");
-            BasyLogger.Instance.LogInfo($"{nameof(RequestPrankServerRpc)} IsServer: {IsServer}");
-            BasyLogger.Instance.LogInfo($"{nameof(RequestPrankServerRpc)} IsHost: {IsHost}");
+            BasyLogger.Instance.LogInfo($"{nameof(RequestPrankServerRpc)} playerId: {playerId} prankId: {prankId}");
             var networker = PrankNetworker.Instance.GetComponent<PrankNetworker>();
-
             networker.RecievePrankClientRpc(playerId, prankId);
-
             BasyLogger.Instance.LogInfo($"{nameof(RequestPrankServerRpc)} End");
         }
 
         [ClientRpc]
-        public void RecievePrankClientRpc(int playerId, string prankId)
+        public void RecievePrankClientRpc(ulong playerId, string prankId)
         {
-            BasyLogger.Instance.LogInfo($"{nameof(RecievePrankClientRpc)} Start");
-            if (playerId == -1 || PlayerHelper.GetLocalPlayer().playerClientId == (ulong)playerId)
+            BasyLogger.Instance.LogInfo($"{nameof(RecievePrankClientRpc)} playerId: {playerId} prankId: {prankId}");
+            if (BLUtils.Players.GetLocalPlayerId() == playerId)
             {
-                BasyLogger.Instance.LogInfo($"{PlayerHelper.GetLocalPlayer().playerClientId} targeted by prank");
+                BasyLogger.Instance.LogInfo($"{BLUtils.Players.GetLocalPlayer().playerClientId} targeted by prank");
                 PrankClient.Instance.RecievePrank(prankId);
             }
             BasyLogger.Instance.LogInfo($"{nameof(RecievePrankClientRpc)} End");

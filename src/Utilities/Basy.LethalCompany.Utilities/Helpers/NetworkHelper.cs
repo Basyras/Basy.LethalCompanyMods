@@ -6,9 +6,9 @@ using Unity.Netcode;
 
 namespace Basy.LethalCompany.Utilities
 {
-    public static class NetworkHelper
+    public class NetworkHelper
     {
-        public static void RegisterNetworker<TNetworkBehaviour>()
+        public void RegisterNetworker<TNetworkBehaviour>()
             where TNetworkBehaviour : NetworkBehaviour
         {
             var networkType = typeof(TNetworkBehaviour);

@@ -11,13 +11,14 @@ using System.Text;
 using System.Threading.Tasks;
 using Unity.Netcode;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 
 namespace BasyFirstMod.Services.Pranking.Hooks
 {
     public static partial class On
     {
-        public static event EventHandler<string> OnLocalPlayerSendingMessage;
+        public static event EventHandler<SendingMessageEventArgs> OnLocalPlayerSendingMessage;
 
         [HarmonyPatch(typeof(HUDManager), "SubmitChat_performed")]
         [HarmonyPrefix]
@@ -30,7 +31,27 @@ namespace BasyFirstMod.Services.Pranking.Hooks
             }
 
             var message = __instance.chatTextField.text;
-            OnLocalPlayerSendingMessage?.Invoke(null, message);
+            var args = new SendingMessageEventArgs(message);
+            OnLocalPlayerSendingMessage?.Invoke(null, args);
+            if (args.PreventSending)
+            {
+                localPlayer.isTypingChat = false;
+                __instance.chatTextField.text = "";
+                EventSystem.current.SetSelectedGameObject(null);
+                __instance.PingHUDElement(__instance.Chat);
+                __instance.typingIndicator.enabled = false;
+            }
+        }
+
+        public class SendingMessageEventArgs : EventArgs
+        {
+            public string Message { get; }
+            public bool PreventSending { get; set; }
+
+            public SendingMessageEventArgs(string message)
+            {
+                Message = message;
+            }
         }
     }
 }

@@ -1,35 +1,39 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Networking;
 
-namespace Basy.LethalCompany.Utilities
+namespace Basy.LethalCompany.Utilities.Helpers.Assets
 {
-    public static class AssetsHelper
+    public class AssetsHelper
     {
-        public static T GetAsset<T>(string name) where T : UnityEngine.Object
+        public T GetAsset<T>(string name) where T : UnityEngine.Object
         {
             var asset = Resources.FindObjectsOfTypeAll<T>().FirstOrDefault(x => x.name == name);
             if (asset is null)
             {
-                throw new Exception($"Asset with name '{name}' not found");
+                throw new Exception($"Asset with name '{name}' not found in game assets");
+
             }
+
             return asset;
         }
 
-        public static T[] GetAssets<T>() where T : UnityEngine.Object
+        public T[] GetAssets<T>() where T : UnityEngine.Object
         {
             var assets = Resources.FindObjectsOfTypeAll<T>();
             return assets;
         }
 
-        public static async Task<AudioClip> GetAudioFromFileAsync(string path)
+        public async Task<AudioClip> GetAudioFromFileAsync(string path)
         {
             AudioClip clip = null;
-            
+
             using (UnityWebRequest uwr = UnityWebRequestMultimedia.GetAudioClip(path, AudioType.WAV))
             {
                 uwr.SendWebRequest();

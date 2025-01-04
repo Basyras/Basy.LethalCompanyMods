@@ -22,12 +22,9 @@ namespace Basy.FirstMod.Services.Pranking.Pranks
 
         private IEnumerator Play()
         {
-            for (int i = 0; i < 180; i++)
+            for (int i = 0; i < 360; i++)
             {
-                //Player.gameplayCamera.transform.Rotate(0, 1, 0, Space.Self);
-                //Player.gameplayCamera.transform.rotation = Quaternion.LookRotation(new Vector3(1,0,0));
-                //Player.transform.rotation = Quaternion.LookRotation(new Vector3(i, 0, 0));
-                Player.transform.Rotate(0, i / 5, 0);
+                Player.transform.Rotate(0, 2, 0, Space.Self);
                 yield return null;
             }
         }

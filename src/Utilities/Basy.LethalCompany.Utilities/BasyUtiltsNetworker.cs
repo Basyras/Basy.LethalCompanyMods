@@ -14,6 +14,9 @@ using UnityEngine.Networking;
 using GameNetcodeStuff;
 using Basy.LethalCompany.Utilities;
 using Newtonsoft.Json.Linq;
+using Basy.LethalCompany.Utilities.Helpers.Audios;
+using Basy.LethalCompany.Utilities.Helpers.Players;
+using LethalLib.Modules;
 
 namespace BasyFirstMod.Services.Pranking
 {
@@ -31,29 +34,31 @@ namespace BasyFirstMod.Services.Pranking
         }
 
         [ServerRpc(RequireOwnership = false)]
-        public void RequestPlayAudioServerRpc(int playerId, string audioId)
+        public void RequestPlayAudioAtPlayerServerRpc(ulong playerId, string audioId, float pitch)
         {
+            BLUtils.Logger.LogInfo($"RequestPlayAudioAtPlayerServerRpc playerId: {playerId} audioId: {audioId} pitch: {pitch}");
+
+
             var networker = BasyUtiltsNetworker.Instance.GetComponent<BasyUtiltsNetworker>();
-            networker.RecievePlayAudioClientRpc(playerId, audioId);
+            networker.RecievePlayAudioAtPlayerClientRpc(playerId, audioId, pitch);
         }
 
         [ClientRpc]
-        public void RecievePlayAudioClientRpc(int playerId, string audioId)
+        public void RecievePlayAudioAtPlayerClientRpc(ulong playerId, string audioId, float pitch)
         {
-            if (playerId == -1 || PlayerHelper.GetLocalPlayer().playerClientId == (ulong)playerId)
-            {
-                var audio = AssetsHelper.GetAsset<AudioClip>(audioId);
-                SoundHelper.PlayAtPlayerLocally(audio);
-            }
+            BLUtils.Logger.LogInfo($"RecievePlayAudioAtPlayerClientRpc playerId: {playerId} audioId: {audioId} pitch: {pitch}");
+
+            var audio = BLUtils.Assets.GetAsset<AudioClip>(audioId);
+            BLUtils.Coroutines.RunTask(BLUtils.Audio.PlayAtPlayerLocallyAsync((ulong)playerId, audio, pitch));
         }
 
         [ServerRpc(RequireOwnership = false)]
-        public void RequestGiveItemServerRpc(int playerId, int itemId)
+        public void RequestGiveItemServerRpc(ulong playerId, int itemId)
         {
-            LoggerHelper.LogError($"Giving item '{itemId}' to player '{playerId}'");
+            BLUtils.Logger.LogInfo($"RequestGiveItemServerRpc playerId: {playerId} itemId: {itemId}");
 
             var networker = BasyUtiltsNetworker.Instance.GetComponent<BasyUtiltsNetworker>();
-            var player = PlayerHelper.GetPlayer(playerId);
+            var player = BLUtils.Players.GetPlayer(playerId);
             GameObject newItem = UnityEngine.Object.Instantiate(StartOfRound.Instance.allItemsList.itemsList[itemId].spawnPrefab, player.transform.position, Quaternion.identity, StartOfRound.Instance.propsContainer);
             newItem.GetComponent<GrabbableObject>().fallTime = 0f;
             newItem.GetComponent<NetworkObject>().Spawn();

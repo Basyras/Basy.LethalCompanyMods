@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Basy.LethalCompany.Utilities
 {
-    public static class LoggerHelper
+    public class LoggerHelper
     {
         private static readonly ManualLogSource logger;
 
@@ -14,17 +14,17 @@ namespace Basy.LethalCompany.Utilities
             logger = BepInEx.Logging.Logger.CreateLogSource("Basy.LethalCompany.Utilities");
         }
 
-        public static void LogInfo(string message)
+        public void LogInfo(string message)
         {
             logger.LogInfo(message);
         }
 
-        public static void LogError(string message)
+        public void LogError(string message)
         {
             logger.LogError(message);
         }
 
-        public static void LogError(Exception ex)
+        public void LogError(Exception ex)
         {
             logger.LogError($"{ex.Message}\n\n{ex.StackTrace}");
         }

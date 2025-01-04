@@ -1,4 +1,5 @@
-﻿using BasyFirstMod.Services.Pranking;
+﻿using Basy.LethalCompany.Utilities.Helpers.Players;
+using BasyFirstMod.Services.Pranking;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
@@ -14,7 +15,7 @@ namespace Basy.LethalCompany.Utilities.Commands
         public async Task ExecuteAsync(string[] tokens)
         {
             var itemId = tokens.Length < 1 ? 0 : int.Parse(tokens[0]);
-            var playerId = tokens.Length < 2 ? (int)PlayerHelper.GetLocalPlayerId() : int.Parse(tokens[1]);
+            ulong playerId = tokens.Length < 2 ? BLUtils.Players.GetLocalPlayerId() : ulong.Parse(tokens[1]);
             BasyUtiltsNetworker.Instance.RequestGiveItemServerRpc(playerId, itemId);
         }
     }

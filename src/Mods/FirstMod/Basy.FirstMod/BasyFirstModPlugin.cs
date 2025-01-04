@@ -34,11 +34,8 @@ namespace BasyFirstMod
         {
             BasyLogger.Instance.LogInfo($"{ModGuid}({ModVersion}) {nameof(Awake)} Start");
 
-            BasyLethalUtils.Register();
-            NetCodePatcherHelper.Patch<BasyFirstModPlugin>();
-            HarmonyPatchHelper.Patch<BasyFirstModPlugin>();
-            CommandsHelper.AddCommands<BasyFirstModPlugin>();
-            NetworkHelper.RegisterNetworker<PrankNetworker>();
+            BLUtils.Register<BasyFirstModPlugin>();
+            BLUtils.Network.RegisterNetworker<PrankNetworker>();
 
             BasyLogger.Instance.LogInfo($"{ModGuid}({ModVersion}) {nameof(Awake)} End");
         }

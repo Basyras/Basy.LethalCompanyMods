@@ -1,4 +1,5 @@
 ﻿using Basy.LethalCompany.Utilities;
+using Basy.LethalCompany.Utilities.Helpers.Players;
 using BasyFirstMod.Services.Pranking;
 using GameNetcodeStuff;
 using HarmonyLib;
@@ -15,20 +16,23 @@ namespace Basy.FirstMod.Services.Pranking.Pranks
     {
         public override async Task ExecuteAsync()
         {
-            PlayerControllerB otherPlayer = PlayerHelper.GetLocalPlayer();
-            while (otherPlayer == PlayerHelper.GetLocalPlayer() || otherPlayer.isPlayerControlled is false)
+            PlayerControllerB otherPlayer = Player;
+            while (otherPlayer == Player || otherPlayer.isPlayerControlled is false)
             {
-                var randomPlayerId = new System.Random().Next(0, PlayerHelper.GetPlayers().Length);
-                otherPlayer = PlayerHelper.GetPlayer(randomPlayerId);
+                var randomPlayerId = new System.Random().Next(0, BLUtils.Players.GetPlayers().Length);
+                otherPlayer = BLUtils.Players.GetPlayer(randomPlayerId);
             }
+            BLUtils.Logger.LogInfo($"Teleporting swap player '{Player.playerClientId}':{Player.transform.position} to player '{otherPlayer.playerClientId}':{otherPlayer.transform.position} ");
 
-            LoggerHelper.LogInfo($"Teleporting swap player '{otherPlayer.playerClientId}' to player '{Player.playerClientId}'");
-
+            BLUtils.Audio.PlayAtPlayerAsync(Player.playerClientId, "ShipTeleporterSpin");
+            BLUtils.Audio.PlayAtPlayerAsync(otherPlayer.playerClientId, "ShipTeleporterSpin");
+            await Task.Delay(4000);
             var otherPlayerPosition = otherPlayer.transform.position;
             var otherPlayerRotation = otherPlayer.transform.rotation;
 
             otherPlayer.TeleportPlayer(Player.transform.position);
             otherPlayer.transform.rotation = Player.transform.rotation;
+            await Task.Delay(1000);
 
             Player.TeleportPlayer(otherPlayerPosition);
             Player.transform.rotation = otherPlayerRotation;

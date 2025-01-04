@@ -26,12 +26,12 @@ namespace Basy.LethalCompany.Utilities.Commands
 
             foreach (var command in commandsToAdd)
             {
-                LoggerHelper.LogInfo($"Adding command '{command.GetType().Name}' from '{assembly.GetName().Name}'");
+                BLUtils.Logger.LogInfo($"Adding command '{command.GetType().Name}' from '{assembly.GetName().Name}'");
                 commands.Add(command.Command, command);
             }
         }
 
-        public static void TryExecute(string message)
+        public static bool TryExecute(string message)
         {
             var tokens = message.Split(' ');
             if (tokens.Length > 1)
@@ -41,8 +41,11 @@ namespace Basy.LethalCompany.Utilities.Commands
                 {
                     var args = tokens.Length == 1 ? Array.Empty<string>() : tokens.Skip(1).ToArray();
                     command.ExecuteAsync(args).GetAwaiter().GetResult();
+                    return true;
                 }
             }
+
+            return false;
         }
     }
 }

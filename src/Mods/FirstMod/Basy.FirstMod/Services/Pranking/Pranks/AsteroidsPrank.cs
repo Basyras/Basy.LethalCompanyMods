@@ -1,4 +1,5 @@
 ﻿using Basy.LethalCompany.Utilities;
+using Basy.LethalCompany.Utilities.Helpers.Audios;
 using BasyFirstMod.Services.Pranking;
 using GameNetcodeStuff;
 using HarmonyLib;
@@ -19,8 +20,7 @@ namespace Basy.FirstMod.Services.Pranking.Pranks
             {
                 HUDManager.Instance.DisplayStatusEffect("Asteriods incoming!");
                 HUDManager.Instance.DisplayTip("Asteriods incoming!", "", true);
-                var audio = AssetsHelper.GetAsset<AudioClip>("Cruiser_Explode");
-                SoundHelper.PlayAtPlayerLocally(audio);
+                BLUtils.Audio.PlayAtPlayerAsync(PlayerId, "Cruiser_Explode");
                 HUDManager.Instance.ShakeCamera(ScreenShakeType.VeryStrong);
                 await Task.Delay(1000);
             }

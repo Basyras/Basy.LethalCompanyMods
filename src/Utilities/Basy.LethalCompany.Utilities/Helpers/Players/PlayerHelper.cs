@@ -5,28 +5,33 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Basy.LethalCompany.Utilities
+namespace Basy.LethalCompany.Utilities.Helpers.Players
 {
-    public static class PlayerHelper
+    public class PlayerHelper
     {
-        public static PlayerControllerB GetLocalPlayer()
+        public PlayerControllerB GetLocalPlayer()
         {
             return StartOfRound.Instance.localPlayerController;
-        }      
-        
-        public static ulong GetLocalPlayerId()
+        }
+
+        public ulong GetLocalPlayerId()
         {
             return StartOfRound.Instance.localPlayerController.playerClientId;
         }
 
-        public static PlayerControllerB[] GetPlayers()
+        public PlayerControllerB[] GetPlayers()
         {
             return StartOfRound.Instance.allPlayerScripts;
         }
 
-        public static PlayerControllerB GetPlayer(int playerId)
+        public PlayerControllerB GetPlayer(int playerId)
         {
             return StartOfRound.Instance.allPlayerScripts[playerId];
+        }
+
+        public PlayerControllerB GetPlayer(ulong playerId)
+        {
+            return GetPlayer((int)playerId);
         }
     }
 }

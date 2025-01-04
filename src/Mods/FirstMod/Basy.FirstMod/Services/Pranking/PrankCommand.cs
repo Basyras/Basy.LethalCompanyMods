@@ -1,4 +1,5 @@
-﻿using Basy.LethalCompany.Utilities.Commands;
+﻿using Basy.LethalCompany.Utilities;
+using Basy.LethalCompany.Utilities.Commands;
 using BasyFirstMod.Services.Pranking;
 using Newtonsoft.Json.Linq;
 using System;
@@ -15,12 +16,12 @@ namespace Basy.FirstMod.Services.Pranking
         public async Task ExecuteAsync(string[] args)
         {
             var prankId = args[0];
-            var playerId = args.Length < 2 ? -1 : int.Parse(args[1]);
+            var playerId = args.Length < 2 ? BLUtils.Players.GetLocalPlayerId() : ulong.Parse(args[1]);
             if (prankId.EndsWith("Prank") is false)
             {
                 prankId = prankId + "Prank";
             }
-            PrankClient.Instance.RequestPrank(-1, prankId);
+            PrankClient.Instance.RequestPrank(playerId, prankId);
         }
     }
 }
