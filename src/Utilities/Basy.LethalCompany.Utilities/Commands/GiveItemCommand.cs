@@ -1,5 +1,5 @@
-﻿using Basy.LethalCompany.Utilities.Helpers.Players;
-using BasyFirstMod.Services.Pranking;
+﻿using Basy.LethalCompany.Utilities.Helpers.Networks;
+using Basy.LethalCompany.Utilities.Helpers.Players;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;

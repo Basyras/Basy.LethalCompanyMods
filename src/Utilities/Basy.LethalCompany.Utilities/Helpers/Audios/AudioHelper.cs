@@ -1,4 +1,4 @@
-﻿using BasyFirstMod.Services.Pranking;
+﻿using Basy.LethalCompany.Utilities.Helpers.Networks;
 using GameNetcodeStuff;
 using System;
 using System.Collections;

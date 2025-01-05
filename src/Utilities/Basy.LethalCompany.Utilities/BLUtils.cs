@@ -2,8 +2,9 @@
 using Basy.LethalCompany.Utilities.Helpers.Assets;
 using Basy.LethalCompany.Utilities.Helpers.Audios;
 using Basy.LethalCompany.Utilities.Helpers.Coroutines;
+using Basy.LethalCompany.Utilities.Helpers.Networks;
+using Basy.LethalCompany.Utilities.Helpers.Networks.Messages;
 using Basy.LethalCompany.Utilities.Helpers.Players;
-using BasyFirstMod.Services.Pranking;
 using BasyFirstMod.Services.Pranking.Hooks;
 using System;
 using System.Collections.Generic;
@@ -23,11 +24,27 @@ namespace Basy.LethalCompany.Utilities
             NetCodePatcherHelper.Patch<BasyUtiltsNetworker>();
             CommandsHelper.AddCommands<BasyUtiltsNetworker>();
 
-            On.OnLocalPlayerSendingMessage += (s, a) =>
+            On.OnLocalChatMessageSending += (s, a) =>
             {
                 if (CommandsHelper.TryExecute(a.Message))
                 {
                     a.PreventSending = true;
+                }
+            };
+
+            On.OnNetworkMessageRecieved += (s, a) =>
+            {
+                if (a is DisplayTipMessage tip)
+                {
+                    HUDManager.Instance.DisplayTip(tip.Header, tip.Body);
+                }
+
+                if(a is TeleportPlayerMessage teleport)
+                {
+                    var position = new Vector3(teleport.PositionX, teleport.PositionY, teleport.PositionZ);
+                    var rotation = new Quaternion(teleport.RotationX, teleport.RotationY, teleport.RotationZ, teleport.RotationW);
+                    BLUtils.Players.GetLocalPlayer().transform.position = position;
+                    BLUtils.Players.GetLocalPlayer().transform.rotation = rotation;
                 }
             };
 

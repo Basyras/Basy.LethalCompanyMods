@@ -18,7 +18,7 @@ namespace BasyFirstMod.Services.Pranking.Hooks
 {
     public static partial class On
     {
-        public static event EventHandler<SendingMessageEventArgs> OnLocalPlayerSendingMessage;
+        public static event EventHandler<SendingMessageEventArgs> OnLocalChatMessageSending;
 
         [HarmonyPatch(typeof(HUDManager), "SubmitChat_performed")]
         [HarmonyPrefix]
@@ -32,7 +32,7 @@ namespace BasyFirstMod.Services.Pranking.Hooks
 
             var message = __instance.chatTextField.text;
             var args = new SendingMessageEventArgs(message);
-            OnLocalPlayerSendingMessage?.Invoke(null, args);
+            OnLocalChatMessageSending?.Invoke(null, args);
             if (args.PreventSending)
             {
                 localPlayer.isTypingChat = false;
