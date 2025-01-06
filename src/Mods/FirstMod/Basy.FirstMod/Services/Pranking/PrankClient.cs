@@ -25,6 +25,11 @@ namespace BasyFirstMod.Services.Pranking
                 .ToArray();
         }
 
+        public string[] GetPrankIds()
+        {
+            return prankTypes.Select(x => x.Name).ToArray();
+        }
+
         public void RequestPrank(ulong playerId, string prankId)
         {
             BasyLogger.Instance.LogInfo("PrankClient RequestPrank Start");
@@ -45,8 +50,8 @@ namespace BasyFirstMod.Services.Pranking
             {
                 prankType = Assembly.GetExecutingAssembly().GetTypes().First(x => x.Name.ToLower() == prankId.ToLower());
             }
-
             var prankInstance = (IPrank)Activator.CreateInstance(prankType);
+            HUDManager.Instance.DisplayTip(prankId, prankInstance.Description);
             prankInstance.Initialize(BLUtils.Players.GetLocalPlayer());
             BasyLogger.Instance.LogInfo($"{nameof(PrankClient)} Executing '{prankType.Name}' prank");
             ExecutePrank(prankInstance);

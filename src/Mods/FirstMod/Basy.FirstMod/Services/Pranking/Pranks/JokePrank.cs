@@ -19,6 +19,9 @@ namespace Basy.FirstMod.Services.Pranking.Pranks
 {
     public class JokePrank : PrankBase
     {
+        public override string Description => "To nebol tvoj flash";
+
+
         public override async Task ExecuteAsync()
         {
             var httpClient = new HttpClient();

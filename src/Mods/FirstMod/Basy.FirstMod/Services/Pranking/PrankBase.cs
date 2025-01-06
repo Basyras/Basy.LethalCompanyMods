@@ -8,10 +8,12 @@ using System.Threading.Tasks;
 
 namespace BasyFirstMod.Services.Pranking
 {
-    public class PrankBase : IPrank
+    public abstract class PrankBase : IPrank
     {
         protected PlayerControllerB Player { get; private set; }
         protected ulong PlayerId { get; private set; }
+
+        public abstract string Description { get; }
 
         public void Initialize(PlayerControllerB player)
         {

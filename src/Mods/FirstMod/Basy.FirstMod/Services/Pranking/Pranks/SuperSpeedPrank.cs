@@ -1,8 +1,8 @@
 ﻿using Basy.LethalCompany.Utilities;
+using BasyFirstMod.Services.Logging;
 using BasyFirstMod.Services.Pranking;
 using GameNetcodeStuff;
 using HarmonyLib;
-using LethalLib.Modules;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -13,11 +13,9 @@ using UnityEngine;
 
 namespace Basy.FirstMod.Services.Pranking.Pranks
 {
-    public class RotatePrank : PrankBase
+    public class SuperSpeedPrank : PrankBase
     {
-
-        public override string Description => "You spin me around and around and around";
-
+        public override string Description => "Not adviced to jump outdoors";
 
         public override async Task ExecuteAsync()
         {
@@ -26,11 +24,10 @@ namespace Basy.FirstMod.Services.Pranking.Pranks
 
         private IEnumerator Play()
         {
-            for (int i = 0; i < 360; i++)
-            {
-                Player.transform.Rotate(0, 2, 0, Space.Self);
-                yield return null;
-            }
+            var originalSpeed = Player.movementSpeed;
+            Player.movementSpeed *= 5;
+            yield return new WaitForSeconds(BLUtils.Random.Int(15));
+            Player.movementSpeed = originalSpeed;
         }
     }
 }

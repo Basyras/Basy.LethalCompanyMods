@@ -15,6 +15,9 @@ namespace Basy.FirstMod.Services.Pranking.Pranks
 {
     public class TeleportSwapPrank : PrankBase
     {
+        public override string Description => "Teleporting to buddy location";
+
+
         public override async Task ExecuteAsync()
         {
             PlayerControllerB otherPlayer = Player;

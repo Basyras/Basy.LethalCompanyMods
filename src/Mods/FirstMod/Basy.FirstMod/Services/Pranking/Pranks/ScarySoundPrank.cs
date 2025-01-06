@@ -15,6 +15,10 @@ namespace Basy.FirstMod.Services.Pranking.Pranks
 {
     public class ScarySoundPrank : PrankBase
     {
+
+        public override string Description => ":O";
+
+
         public override async Task ExecuteAsync()
         {
             var scaryAudioFolder = Path.Combine(Directory.GetParent(Assembly.GetExecutingAssembly().Location).FullName, $"Resources\\Audio\\Scary");

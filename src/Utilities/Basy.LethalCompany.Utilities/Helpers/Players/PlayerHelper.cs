@@ -21,7 +21,7 @@ namespace Basy.LethalCompany.Utilities.Helpers.Players
 
         public PlayerControllerB[] GetPlayers()
         {
-            return StartOfRound.Instance.allPlayerScripts;
+            return StartOfRound.Instance.allPlayerScripts.Where(x=>x.isPlayerControlled).ToArray();
         }
 
         public PlayerControllerB GetPlayer(int playerId)

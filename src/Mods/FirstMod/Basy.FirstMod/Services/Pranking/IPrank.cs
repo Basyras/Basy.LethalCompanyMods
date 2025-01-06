@@ -11,5 +11,6 @@ namespace BasyFirstMod.Services.Pranking
     {
         void Initialize(PlayerControllerB player);
         Task ExecuteAsync();
+        string Description { get; }
     }
 }

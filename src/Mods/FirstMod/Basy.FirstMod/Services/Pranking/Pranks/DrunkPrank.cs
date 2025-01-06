@@ -1,6 +1,8 @@
-﻿using BasyFirstMod.Services.Pranking;
+﻿using Basy.LethalCompany.Utilities;
+using BasyFirstMod.Services.Pranking;
 using GameNetcodeStuff;
 using HarmonyLib;
+using LethalLib.Modules;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -13,6 +15,9 @@ namespace Basy.FirstMod.Services.Pranking.Pranks
 {
     public class DrunkPrank : PrankBase
     {
+        public override string Description => "Funny vision and movement";
+
+
         public override async Task ExecuteAsync()
         {
             Player.StartCoroutine(Play());
@@ -23,15 +28,36 @@ namespace Basy.FirstMod.Services.Pranking.Pranks
             var camera = Player.gameplayCamera;
             var originalProjection = camera.projectionMatrix;
             var originalTransform = camera.transform;
+            var timeSeconds = BLUtils.Random.Int(15, 15);
+            var maxDirection = 2;
+            var originalSpeed = Player.movementSpeed;
 
-            for (int i = 0; i < 1000; i++)
+            int breakPoint = 0;
+            int breakPoint2 = 0;
+            Vector3 motion = new Vector3(0, 0, 0);
+            yield return BLUtils.Time.ExecuteFor(timeSeconds, (context) =>
             {
+                if (breakPoint == 0 || context.TimeExecutedSec > breakPoint)
+                {
+                    motion = new Vector3(BLUtils.Random.Int(-maxDirection, maxDirection), 0, BLUtils.Random.Int(-maxDirection, maxDirection));
+                    breakPoint += 5;
+                }
+
+                if (breakPoint2 == 0 || context.TimeExecutedSec > breakPoint2)
+                {
+                    Player.movementSpeed = BLUtils.Random.Int(-1, 2);
+                    breakPoint2 += 4;
+                }
+
+                Player.thisController.Move(motion * Time.deltaTime);
+
                 var increment = Mathf.Sin(Time.time);
                 Player.transform.Rotate(0, increment, 0, Space.Self);
                 camera.projectionMatrix = FishEyeMatrix(camera);
-                yield return null;
-            }
+            });
+
             camera.projectionMatrix = originalProjection;
+            Player.movementSpeed = originalSpeed;
 
         }
 

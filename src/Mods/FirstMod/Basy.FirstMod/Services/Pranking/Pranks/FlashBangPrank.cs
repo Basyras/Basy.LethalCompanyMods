@@ -14,6 +14,8 @@ namespace Basy.FirstMod.Services.Pranking.Pranks
 {
     public class FlashBangPrank : PrankBase
     {
+        public override string Description => "To nebol tvoj flash";
+
         public override async Task ExecuteAsync()
         {
             var time = 1f;

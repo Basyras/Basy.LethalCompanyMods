@@ -12,6 +12,8 @@ namespace Basy.FirstMod.Services.Pranking.Pranks
 {
     public class CameraLockPrank : PrankBase
     {
+        public override string Description => "You got locked :/";
+
         public override async Task ExecuteAsync()
         {
             Player.isFreeCamera = true;

@@ -12,6 +12,8 @@ namespace Basy.FirstMod.Services.Pranking.Pranks
 {
     public class TripPrank : PrankBase
     {
+        public override string Description => "You just tripped!";
+
         public override async Task ExecuteAsync()
         {
             //TODO drop item in hand

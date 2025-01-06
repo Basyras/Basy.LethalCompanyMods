@@ -14,6 +14,9 @@ namespace Basy.FirstMod.Services.Pranking.Pranks
 {
     public class AsthmaPrank : PrankBase
     {
+
+        public override string Description => "Bad stamina and wheezing";
+
         private static bool IsActive { get; set; }
         public override async Task ExecuteAsync()
         {

@@ -5,6 +5,8 @@ using Basy.LethalCompany.Utilities.Helpers.Coroutines;
 using Basy.LethalCompany.Utilities.Helpers.Networks;
 using Basy.LethalCompany.Utilities.Helpers.Networks.Messages;
 using Basy.LethalCompany.Utilities.Helpers.Players;
+using Basy.LethalCompany.Utilities.Helpers.Randoms;
+using Basy.LethalCompany.Utilities.Helpers.Times;
 using BasyFirstMod.Services.Pranking.Hooks;
 using System;
 using System.Collections.Generic;
@@ -60,6 +62,8 @@ namespace Basy.LethalCompany.Utilities
         public static CoroutinesHelper Coroutines { get; } = new CoroutinesHelper();
         public static LoggerHelper Logger { get; } = new LoggerHelper();
         public static NetworkHelper Network { get; } = new NetworkHelper();
+        public static RandomHelper Random { get; } = new RandomHelper();
+        public static TimeHelper Time { get; } = new TimeHelper();
 
     }
 }

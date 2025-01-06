@@ -14,12 +14,13 @@ namespace Basy.FirstMod.Services.Pranking.Pranks
 {
     public class AsteroidsPrank : PrankBase
     {
+        public override string Description => "ASTERIODS INCOMING!!!";
+
         public override async Task ExecuteAsync()
         {
             for (int i = 0; i < 10; i++)
             {
                 HUDManager.Instance.DisplayStatusEffect("Asteriods incoming!");
-                HUDManager.Instance.DisplayTip("Asteriods incoming!", "", true);
                 BLUtils.Audio.PlayAtPlayerAsync(PlayerId, "Cruiser_Explode");
                 HUDManager.Instance.ShakeCamera(ScreenShakeType.VeryStrong);
                 await Task.Delay(1000);

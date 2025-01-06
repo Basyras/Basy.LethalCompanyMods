@@ -2,7 +2,6 @@
 using BasyFirstMod.Services.Pranking;
 using GameNetcodeStuff;
 using HarmonyLib;
-using LethalLib.Modules;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -13,11 +12,9 @@ using UnityEngine;
 
 namespace Basy.FirstMod.Services.Pranking.Pranks
 {
-    public class RotatePrank : PrankBase
+    public class MovePrank : PrankBase
     {
-
-        public override string Description => "You spin me around and around and around";
-
+        public override string Description => "Keyboard disconnected simulator";
 
         public override async Task ExecuteAsync()
         {
@@ -26,11 +23,14 @@ namespace Basy.FirstMod.Services.Pranking.Pranks
 
         private IEnumerator Play()
         {
-            for (int i = 0; i < 360; i++)
+            var timeSeconds = BLUtils.Random.Int(15, 15);
+            var maxDirection = 3;
+
+            var motion = new Vector3(BLUtils.Random.Int(-maxDirection, maxDirection), 0, BLUtils.Random.Int(-maxDirection, maxDirection));
+            yield return BLUtils.Time.ExecuteFor(timeSeconds, (context) =>
             {
-                Player.transform.Rotate(0, 2, 0, Space.Self);
-                yield return null;
-            }
+                Player.thisController.Move(motion * Time.deltaTime);
+            });
         }
     }
 }
