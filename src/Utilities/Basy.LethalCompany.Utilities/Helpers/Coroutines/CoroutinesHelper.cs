@@ -28,5 +28,10 @@ namespace Basy.LethalCompany.Utilities.Helpers.Coroutines
             var coroutine = FromTask(task);
             BLUtils.Players.GetLocalPlayer().StartCoroutine(coroutine);
         }
+
+        public void RunCoroutine(IEnumerator coroutine)
+        {
+            BLUtils.Players.GetLocalPlayer().StartCoroutine(coroutine);
+        }
     }
 }
